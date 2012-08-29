@@ -8,6 +8,7 @@
 
 HSC pSensor1 (0);
 double pressure;
+uint16_t pressureInt;
 
 // Start main program
 void setup()
@@ -22,6 +23,9 @@ void setup()
 void loop()
 {
   pressure = pSensor1.pressure();
+  pressureInt = pSensor1.pressureInt();
+  Serial.print(pressureInt);
+  Serial.print("     ");
   Serial.print(pressure);
   Serial.println(" cmH2O");
   
