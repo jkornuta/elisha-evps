@@ -12,8 +12,8 @@
 #include "Servo.h"
 #include "LS7366R.h"
 #include "HardwareSerial.h"
-#include "dac5752.h"
 #include "SPI.h"
+#include "dac5752.h"
 #include "math.h"
 
 /**********************
@@ -90,7 +90,7 @@ void Servo::_ls7366rConfig(void)
         Serial.println(MDR1_CONFIG, BIN);
         Serial.println(MDR1_Val, BIN);
         Serial.println("\n*** LS7366R CONFIGURATION FAILURE! ***");
-        while (1);
+        //while (1);
     }
 }
 
