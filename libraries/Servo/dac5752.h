@@ -16,8 +16,10 @@ typedef enum outputRanges
 {
     UNIPOLAR_5V = 0,
     UNIPOLAR_10V,
+    UNIPOLAR_10p8V,   // +10.8 V
     BIPOLAR_5V,
-    BIPOLAR_10V
+    BIPOLAR_10V,
+    BIPOLAR_10p8V     // +-10.8 V
 } dac_output_range_t;
 
 /********************
