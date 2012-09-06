@@ -57,7 +57,7 @@ void Servo::init(void)
 {
     SPI.begin();
     _ls7366rConfig();
-    _dacConfig(UNIPOLAR_10V);
+    _dacConfig(BIPOLAR_10V);
 }
 
 void Servo::_ls7366rConfig(void)
@@ -150,12 +150,26 @@ void Servo::_dacConfig(uint8_t power_setting)
 // apply +-10 V (double) signal to motor
 void Servo::move(double volts)
 {
-    //For testing, we're gonna do +-5V. 
-    //Get ratio between volts and 5.0
-    float scale = volts / 10.0;
+    // Code for UNIPOLAR_10V  
+    //float scale = volts / 10.0;
+    //int16_t value = (int16_t) floor(scale * 0xFFFF); //Scale * value for 10V.
+
+    // Code for BIPOLAR_10V
+    int16_t value;
+
+    if ( volts >= 0 )
+    {
+      // Scale value for 10 V
+      value = (int16_t) floor( volts / 10.0 * 0x7FFF );
+    }
+    else
+    {
+      // Scale value for 10 V, then take 2's complement
+      value = (int16_t) floor( abs(volts) / 10.0 * 0x8000 );
+      value = ( ~value ) + 1;
+    }
     
-    int16_t value = (int16_t) floor(scale * 0xFFFF); //Scale * value for 5V.
-    //DAC.enableSDO();
-    DAC.setValue(selected_dac, value); //Set the DAC output
+    // Set DAC output
+    DAC.setValue(selected_dac, value);
     //DAC.disableSDO}
 }
