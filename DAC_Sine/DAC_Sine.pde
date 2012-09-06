@@ -1,0 +1,142 @@
+/*
+ * Output voltage tester
+ *  Output sine wave on DAC A
+ *   JK 9/5/2012
+ *
+ */
+
+#if defined(__PIC32MX__)
+#include <p32xxxx.h>    /* this gives all the CPU/hardware definitions */
+#include <plib.h>       /* this gives the i/o definitions */
+#endif
+
+
+#include "Servo.h"
+#include "SPI.h"
+#include <math.h>
+#include <stdbool.h>
+#include <stdint.h>
+
+/********************
+* Define Statements *
+********************/
+
+#define DAC_A  0
+#define DAC_B  2
+
+#define CLOCK_FREQ 80000000
+#define TIMER_PRESCALE 4
+#define PRESCALED_TIMER_FREQ 20000000
+#define PI 3.14159265
+
+/************************
+* Variable Declarations *
+************************/
+Servo servo (9, 8, DAC_A); // QD cs = 9, DAC cs = 8, DAC A
+bool apply_value = false;
+bool pin_state = false;
+double delta_t;
+int k = 0;  // Counter for sine wave
+//float Fs = 5.0;  // Sampling frequency, Hz
+float Ts = 0.0001; // Sampling time, sec
+float Fs = 1.0 / Ts; // Sampling frequency, Hz
+float f = 100.0; // Frequency of sine wave, Hz
+float max_count = Fs / f;  // Max iteration number for sine wave
+float y;  // Value of sine at time k*Ts
+
+
+/************************
+ * Function Declarations *
+ ************************/
+void configureTimer45();
+void printTMRVals();
+
+/***********************
+ * Function Definitions *
+ ***********************/
+
+void setup() 
+{
+    Serial.begin(115200);
+    
+    servo.init(); // Set up SPI and configure QD and DAC
+        
+    Serial.println("Begin System Test");
+
+    // Initial output voltage, 0 V
+    servo.move(0.0);
+
+    // Configure timer for desired sampling frequency
+    configureTimer45(Fs);
+
+}
+
+void loop()
+{
+
+  // If interrupt was triggered, do something!
+  if (apply_value)
+  {
+    // Calculate sine value
+    y = sin(2*PI*f*Ts*k) + 1.0;
+
+    // Output this sine value
+    Serial.println(y);
+    servo.move(y);
+
+    // Iterate counter
+    k++;
+
+    // Roll over counter once a period has transpired
+    if ( k > max_count )
+    {
+      k = 0;
+    }     
+
+    // OK, interrupt has been serviced. Carry on!
+    apply_value = false;
+
+  }
+
+
+}
+
+void configureTimer45(float freq)
+{
+  uint32_t t_period;  //For the PIC32 PR4 register
+
+  T4CON = 0x0;
+  T5CON = 0x0;
+
+  // Using the desired frequency, clock frequency,
+  //  and number of vals per cycle, we can get the
+  //  Timer period.
+  t_period = (uint32_t) floor((float) PRESCALED_TIMER_FREQ / freq );
+
+  delta_t = (float) t_period * (1.0 / (float) PRESCALED_TIMER_FREQ);
+  
+  //T4CONSET = 0x18; //Prescaler 1:2, internal peripheral source
+  T4CONSET = 0x28; //Prescaler 1:4, internal source
+
+  TMR4 = 0;
+  PR4 = t_period;
+  IPC5SET = 0x5; //Priority level 1, sub-priority level 1
+  IFS0CLR = 0x00100000;
+  IEC0SET = 0x00100000;
+
+  T4CONSET = 0x8000; // Start timer 45
+
+}
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+  void __ISR(_TIMER_5_VECTOR,IPL3AUTO) write_handler( void )
+  {
+    apply_value = true;
+    IFS0CLR = 0x00100000;  // Clear interrupt flag
+  }
+
+#ifdef __cplusplus
+}
+#endif
