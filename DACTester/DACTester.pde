@@ -18,14 +18,6 @@
 #define DAC_A  0
 #define DAC_B  2
 
-#define SYS_DEBUG
-
-#ifdef SYS_DEBUG
-#define debugf(msg) Serial.print msg
-#else
-#define debugf(msg) 
-#endif
-
 /************************
 * Variable Declarations *
 ************************/
@@ -44,7 +36,7 @@ void setup()
     Serial.println("Begin System Test");
 
     // Output voltage
-    servo.move(5.0);  // Apply 5.0 V
+    servo.move(-9.95);  
 }
 
 void loop()
