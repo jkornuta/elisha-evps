@@ -141,7 +141,7 @@ void Servo::_dacConfig(uint8_t power_setting)
         Serial.print("\nRegister Value: ");
         Serial.print(dacCheckPower & 0xF, BIN);
         Serial.println("\n\n*** DAC5752 CONFIGURATION FAILUE! ***");
-        while(1) {} //Wait indefinitely in error loop
+        //while(1) {} //Wait indefinitely in error loop
     }
     
     DAC.disableSDO();
