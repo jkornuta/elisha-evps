@@ -42,7 +42,7 @@ Servo::Servo(uint16_t quadDecCS, uint16_t dacCS, uint8_t dac)
     
     selected_dac = dac;
     
-    digitalWrite(10, HIGH);
+    //digitalWrite(10, HIGH);
 }
 
 // read position of motor (via LS7366R)
