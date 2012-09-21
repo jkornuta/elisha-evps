@@ -21,7 +21,8 @@
 /************************
 * Variable Declarations *
 ************************/
-Servo servo (9, 8, DAC_A); // QD cs = 9, DAC cs = 8, DAC A
+Servo servo1 (9, 8, DAC_A); // QD cs = 9, DAC cs = 8, DAC A
+Servo servo2 (10, 8, DAC_B);
 
 /***********************
 * Function Definitions *
@@ -31,12 +32,14 @@ void setup()
 {
     Serial.begin(115200);
     
-    servo.init(); // Set up SPI and configure QD and DAC
+    servo1.init(); // Set up SPI and configure QD and DAC
+    servo2.init();
         
     Serial.println("Begin System Test");
 
     // Output voltage
-    servo.move(-9.95);  
+    //servo1.move(-5.0);
+    //servo2.move(5.0);  
 }
 
 void loop()
