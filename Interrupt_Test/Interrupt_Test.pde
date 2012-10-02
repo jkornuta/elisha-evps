@@ -53,9 +53,10 @@ bool pin_state = false;
 double delta_t;
 uint8_t pinOut = 13;  // Digital pin to ouput pulse
 //float Fs = 5.0;  // Sampling frequency, Hz
-float Ts = 0.01; // Sampling time, sec
-float Fs = 1.0 / Ts; // Sampling frequency, Hz
+double Ts = 0.5; // Sampling time, sec
+double Fs = 1.0 / Ts; // Sampling frequency, Hz
 
+double preFreq = 20000000.0;
 
 /***********************
  * Function Definitions *
@@ -100,7 +101,7 @@ void loop()
 
 }
 
-void configureTimer45(float freq)
+void configureTimer45(double freq)
 {
   uint32_t t_period;  //For the PIC32 PR4 register
 
@@ -110,9 +111,9 @@ void configureTimer45(float freq)
   // Using the desired frequency, clock frequency,
   //  and number of vals per cycle, we can get the
   //  Timer period.
-  t_period = (uint32_t) floor((float) PRESCALED_TIMER_FREQ / freq );
+  t_period = (uint32_t) ((double) PRESCALED_TIMER_FREQ / freq );
+  delta_t = (double) t_period * (1.0 / (double) PRESCALED_TIMER_FREQ);
 
-  delta_t = (float) t_period * (1.0 / (float) PRESCALED_TIMER_FREQ);
   debugf(("The new timer period is: "));
   debugf((t_period));
   debugf(("\n"));
