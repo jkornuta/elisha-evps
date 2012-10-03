@@ -35,6 +35,7 @@ SPIDevice::~SPIDevice()
     //Nothing to destruct
 }
 
+/*
 void SPIDevice::setupSPI()
 {
     //We're gonna default to SPI_MODE1 for now.
@@ -43,6 +44,7 @@ void SPIDevice::setupSPI()
     SPI.setDataMode(SPI_MODE1);
     SPI.setClockDivider(SPI_CLOCK_DIV16);
 }
+*/
 
 void SPIDevice::setCSPin(uint8_t cs_pin)
 {
@@ -93,6 +95,44 @@ uint32_t SPIDevice::_transfer(uint8_t a, uint8_t b, uint8_t c)
     ret_val = ((ret_val << 8) | ((uint32_t) c_ret));
   
     return ret_val;
+}
+
+// Function specifically to read position of QD
+uint32_t SPIDevice::_transfer(uint8_t cmd)
+{
+  uint8_t result[4] = {0, 0, 0, 0};
+
+  // Send cmd
+  _enableChipSelect();
+  SPI.transfer(cmd);  
+
+  // Receive bytes back 
+  result[0] = SPI.transfer(0x00);
+  result[1] = SPI.transfer(0x00);
+  result[2] = SPI.transfer(0x00);
+  result[3] = SPI.transfer(0x00);
+  _disableChipSelect();
+
+  // Debug
+  /*
+  Serial.print(result[0], HEX);
+  Serial.print(" ");
+  Serial.print(result[1], HEX);
+  Serial.print(" ");
+  Serial.print(result[2], HEX);
+  Serial.print(" ");
+  Serial.print(result[3], HEX);
+  Serial.println(" ");
+  */
+
+  // Store result as single 32-bit (unsigned) int
+  uint32_t counter = (uint32_t) result[0];
+  counter = ((counter << 8) | result[1] );
+  counter = ((counter << 8) | result[2] );
+  counter = ((counter << 8) | result[3] );
+
+  // Return value
+  return counter;
 }
 
 void SPIDevice::_send(uint8_t a, uint8_t b, uint8_t c)

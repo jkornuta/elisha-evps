@@ -27,7 +27,7 @@ public:
     SPIDevice();
     ~SPIDevice();
     void setCSPin(uint8_t cs_pin);
-    virtual void setupSPI();
+    //virtual void setupSPI();
     uint8_t getChipSelectPin();
     uint32_t getLastTransmissionResult(void);
 
@@ -36,9 +36,9 @@ protected:
     inline void _enableChipSelect();
     inline void _disableChipSelect();
     void _send(uint8_t a, uint8_t b, uint8_t c);
-    void _send(uint8_t a, uint8_t b);
+    void _send(uint8_t a, uint8_t b);  
     uint32_t _transfer(uint8_t a, uint8_t b, uint8_t c);
-    uint32_t _transfer(uint8_t a, uint8_t b);
+    uint32_t _transfer(uint8_t cmd);
 };
 
 #endif //SPI_DEVICE_H
