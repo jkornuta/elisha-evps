@@ -92,6 +92,9 @@ void Servo::_ls7366rConfig(void)
         Serial.println("\n*** LS7366R CONFIGURATION FAILURE! ***");
         //while (1);
     }
+
+    // Clear counter value initially
+    QD.clear();
 }
 
 void Servo::_dacConfig(uint8_t power_setting)
