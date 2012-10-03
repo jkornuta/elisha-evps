@@ -63,7 +63,7 @@ void setup()
   //servo2.move(-5.0);
 
   // Pause initially, then continue
-  //delay(2000);  // delay in ms
+  delay(2000);  // delay in ms
 
   // Configure timer for desired sampling frequency
   configureTimer45(Fs);
