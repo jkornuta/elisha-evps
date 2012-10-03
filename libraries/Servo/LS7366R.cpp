@@ -10,6 +10,7 @@
 
 #include "LS7366R.h"
 #include "SPI.h"
+#include "SPIDevice.h"
 
 /********************
 * Define Statements *
@@ -33,10 +34,16 @@ LS7366RClass::~LS7366RClass()
     //Not destructing anything currently
 }
 
+void LS7366RClass::clear()
+{
+  // Clear counter
+  _send(CLEAR_COUNTER, 0);
+}
+
 void LS7366RClass::setupSPI()
 {
    SPI.setBitOrder(MSBFIRST);
-   SPI.setDataMode(SPI_MODE1);
+   SPI.setDataMode(SPI_MODE1); 
    SPI.setClockDivider(SPI_CLOCK_DIV16);
 }
 
@@ -54,9 +61,10 @@ double LS7366RClass::readPosition()
 {
     uint32_t count;
     
-    _send(READ_COUNTER, 0, 0);
-    count = getLastTransmissionResult();
+    // send read counter command
+    count = _transfer( READ_COUNTER );
     
+    // return value in mm   
     return ((double) count / 2000.0); //0.5um / count
 }
 
