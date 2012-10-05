@@ -35,14 +35,10 @@ LS7366RClass QD;
 ***********************/
 Servo::Servo(uint8_t quadDecCS, uint8_t dacCS, uint8_t dac)
 {   
-    // initialize SPI for LS7366R
-    QD.setCSPin(quadDecCS);
-    //Initialize SPI for DAC
-    DAC.setCSPin(dacCS);
-    
-    selected_dac = dac;
-    
-    //digitalWrite(10, HIGH);
+  // Set private vars so (private) methods can initialize properly 
+  _quadDecCS = quadDecCS;
+  _dacCS = dacCS;
+  selected_dac = dac; 
 }
 
 // read position of motor (via LS7366R)
