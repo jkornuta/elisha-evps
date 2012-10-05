@@ -33,7 +33,7 @@ LS7366RClass QD;
 /***********************
 * Function Definitions *
 ***********************/
-Servo::Servo(uint16_t quadDecCS, uint16_t dacCS, uint8_t dac)
+Servo::Servo(uint8_t quadDecCS, uint8_t dacCS, uint8_t dac)
 {   
     // initialize SPI for LS7366R
     QD.setCSPin(quadDecCS);
