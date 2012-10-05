@@ -59,7 +59,8 @@ void LS7366RClass::setMDR1Reg(uint8_t config_val)
       
 double LS7366RClass::readPosition(uint8_t cs_pin)
 {
-    uint32_t count;
+    int32_t count;
+
     // Know which QD to use!
     CSpin = cs_pin;
     
