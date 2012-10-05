@@ -27,6 +27,8 @@ class Servo
     private:
         void _ls7366rConfig(void);
         void _dacConfig(uint8_t power_setting);
+        uint8_t _quadDecCS;
+        uint8_t _dacCS;
         uint8_t selected_dac;
 };
 
