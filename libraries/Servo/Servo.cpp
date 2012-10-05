@@ -170,13 +170,19 @@ void Servo::move(double volts)
 
     if ( volts >= 0 )
     {
+      // Set saturation
+      if ( volts > 10.0 ) { volts = 10.0; }
+
       // Scale value for 10 V
-      value = (int16_t) floor( volts / 10.0 * 0x7FFF );
+      value = (int16_t) ( volts / 10.0 * 0x7FFF );
     }
     else
     {
+      // Set saturation
+      if ( volts < -10.0 ) { volts = -10.0; }
+
       // Scale value for 10 V, then take 2's complement
-      value = (int16_t) floor( abs(volts) / 10.0 * 0x8000 );
+      value = (int16_t) ( abs(volts) / 10.0 * 0x8000 );
       value = ( ~value ) + 1;
     }
     
