@@ -70,7 +70,7 @@ class DACClass : public SPIDevice
         DACClass();
         ~DACClass();
 
-        void setupSPI(); //Differs from SPI Mode 1 used in SPIDevice
+        void setupSPI(); 
         void setOutputRange(uint8_t address, uint8_t voltage_range);
         uint32_t getOutputRange(uint8_t address);
         void setControl();
