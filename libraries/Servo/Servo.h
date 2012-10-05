@@ -19,7 +19,7 @@
 class Servo
 {
     public:
-        Servo(uint16_t quadDecCS, uint16_t dacCS, uint8_t dac);
+        Servo(uint8_t quadDecCS, uint8_t dacCS, uint8_t dac);
         void init(void);
         double position(void);
         void move(double volts);
