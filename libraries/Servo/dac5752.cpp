@@ -79,27 +79,3 @@ void DACClass::enableSDO()
 {
   setControl();
 }
-
-/*
-void DACClass::powerDownDAC(uint8_t channels)
-{
-    //To ensure we don't get stuck at some odd place sometimes, we're gonna:
-    //Set voltage to zero.
-    //Turn off DAC
-    if(channels == POWER_DAC_A)
-    {
-        setValue(DAC_A, 0x0);
-
-
-    } 
-    else if (channels == POWER_DAC_B)
-    {
-
-    }
-    else if(channels == POWER_DACA_ALL
-    {
-
-
-    }
-}
-*/
