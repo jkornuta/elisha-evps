@@ -60,6 +60,10 @@ void Servo::_ls7366rConfig(void)
 {
     uint8_t MDR0_Val;
     uint8_t MDR1_Val;
+
+    // Set QD CS pin
+    QD.setCSPin(_quadDecCS);
+
     QD.setupSPI(); //Ensure SPI is configured for this device
 
     QD.setMDR1Reg(MDR1_CONFIG);
@@ -75,7 +79,9 @@ void Servo::_ls7366rConfig(void)
 
     if (MDR0_CONFIG == MDR0_Val && MDR1_CONFIG == MDR1_Val)
     {
-        Serial.println("  >> LS7366R Quadrature Decoder successfully configured.\n");
+        Serial.print(" > LS7366R Quadrature Decoder (CS pin = ");
+        Serial.print( QD.getChipSelectPin(), DEC );
+        Serial.println(") successfully configured.");
     }
     else
     {
@@ -91,6 +97,7 @@ void Servo::_ls7366rConfig(void)
 
     // Clear counter value initially
     QD.clear();
+
 }
 
 void Servo::_dacConfig(uint8_t power_setting)
