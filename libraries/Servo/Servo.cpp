@@ -45,7 +45,7 @@ Servo::Servo(uint8_t quadDecCS, uint8_t dacCS, uint8_t dac)
 double Servo::position(void)
 {
     QD.setupSPI(); //Ensure SPI is configured for this device
-    return QD.readPosition();
+    return QD.readPosition(_quadDecCS);
 }
 
 // initialize the motor, encoder and DAC chips
