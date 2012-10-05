@@ -98,7 +98,7 @@ uint32_t SPIDevice::_transfer(uint8_t a, uint8_t b, uint8_t c)
 }
 
 // Function specifically to read position of QD
-uint32_t SPIDevice::_transfer(uint8_t cmd)
+int32_t SPIDevice::_transfer(uint8_t cmd)
 {
   uint8_t result[4] = {0, 0, 0, 0};
 
@@ -126,7 +126,7 @@ uint32_t SPIDevice::_transfer(uint8_t cmd)
   */
 
   // Store result as single 32-bit (unsigned) int
-  uint32_t counter = (uint32_t) result[0];
+  int32_t counter = result[0];
   counter = ((counter << 8) | result[1] );
   counter = ((counter << 8) | result[2] );
   counter = ((counter << 8) | result[3] );

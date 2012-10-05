@@ -38,7 +38,7 @@ protected:
     void _send(uint8_t a, uint8_t b, uint8_t c);
     void _send(uint8_t a, uint8_t b);  
     uint32_t _transfer(uint8_t a, uint8_t b, uint8_t c);
-    uint32_t _transfer(uint8_t cmd);
+    int32_t _transfer(uint8_t cmd);
 };
 
 #endif //SPI_DEVICE_H
