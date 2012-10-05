@@ -103,6 +103,9 @@ void Servo::_ls7366rConfig(void)
 void Servo::_dacConfig(uint8_t power_setting)
 {  
     uint8_t newly_powered_DAC;
+
+    //Initialize SPI for DAC
+    DAC.setCSPin(_dacCS);
   
     DAC.setupSPI(); //Ensure SPI is configured for this device
     DAC.enableSDO();
@@ -137,7 +140,9 @@ void Servo::_dacConfig(uint8_t power_setting)
 
     if( (dacCheckPower & 0xF) == (newly_powered_DAC | powered_DAC))
     {
-        Serial.println("DAC power control successfully configured.\n");
+      Serial.print(" > DAC power control (DAC ");
+      Serial.print( selected_dac, DEC );
+      Serial.println(") successfully configured.\n");
     }
     else
     {
