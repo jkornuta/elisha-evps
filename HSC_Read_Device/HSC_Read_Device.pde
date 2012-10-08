@@ -21,6 +21,7 @@ void setup()
 // Test pressure sensor
 void loop()
 {
+  /*
   // If received a byte, return a pressure!
   while ( Serial.available() > 0 )
   {
@@ -32,4 +33,8 @@ void loop()
     Serial.print(pressure);
     Serial.print('\n');
   }
+  */
+  Serial.println( pSensor1.pressure() );
+
+  delay(200);
 }
