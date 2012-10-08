@@ -69,7 +69,7 @@ void setup()
   servo1.init(); 
   //servo2.init();
         
-  Serial.println(" > Waiting for user (Type 'g' for GO)...");
+  //Serial.println(" > Waiting for user (Type 'g' for GO)...");
 
   // Initial output voltage, 0 V
   servo1.move(0.0);
