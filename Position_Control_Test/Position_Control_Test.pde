@@ -87,8 +87,13 @@ void setup()
       // Read in byte to remove from buffer
       char in = Serial.read();
       
-      // Did user type "g" for GO? If so -- carry on!
-      if ( in == 'g' ) { wait = false; }
+      // Did user type "g" for GO? 
+      //  If so -- zero out counter and carry on!
+      if ( in == 'g' ) 
+      { 
+        servo1.zero();
+        wait = false; 
+      }
     }
   }
 
