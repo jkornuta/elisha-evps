@@ -35,7 +35,7 @@ class LS7366RClass : public SPIDevice
     public:
         LS7366RClass();
         ~LS7366RClass();
-        void clear();
+        void clear(uint8_t cs_pin);
         void setupSPI();
         double readPosition(uint8_t cs_pin);
         void setMDR0Reg(uint8_t config_val);

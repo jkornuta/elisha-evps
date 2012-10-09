@@ -34,9 +34,10 @@ LS7366RClass::~LS7366RClass()
     //Not destructing anything currently
 }
 
-void LS7366RClass::clear()
+void LS7366RClass::clear(uint8_t cs_pin)
 {
   // Clear counter
+  CSpin = cs_pin;
   _send(CLEAR_COUNTER, 0);
 }
 

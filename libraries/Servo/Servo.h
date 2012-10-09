@@ -23,6 +23,7 @@ class Servo
         void init(void);
         double position(void);
         void move(double volts);
+        void zero(void);
 
     private:
         void _ls7366rConfig(void);

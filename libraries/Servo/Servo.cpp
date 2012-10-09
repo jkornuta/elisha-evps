@@ -96,7 +96,7 @@ void Servo::_ls7366rConfig(void)
     }
 
     // Clear counter value initially
-    QD.clear();
+    QD.clear(_quadDecCS);
 
 }
 
@@ -189,4 +189,10 @@ void Servo::move(double volts)
     // Set DAC output
     DAC.setValue(selected_dac, value);
     //DAC.disableSDO}
+}
+
+// Zero-out (clear) QD counter value
+void Servo::zero(void)
+{
+  QD.clear(_quadDecCS);
 }
