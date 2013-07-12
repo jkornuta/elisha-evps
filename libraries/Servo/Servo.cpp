@@ -26,7 +26,7 @@ LS7366RClass QD;
 * Configuration Definitions *
 ****************************/
 // configuration vars for the LS7366R
-#define MDR0_CONFIG 3    // 0 0 00 00 11
+#define MDR0_CONFIG 67   // 0 1 00 00 11
 #define MDR1_CONFIG 0    // 00000000
 
 
@@ -194,5 +194,6 @@ void Servo::move(double volts)
 // Zero-out (clear) QD counter value
 void Servo::zero(void)
 {
+  QD.setupSPI(); 
   QD.clear(_quadDecCS);
 }

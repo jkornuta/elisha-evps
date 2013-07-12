@@ -18,10 +18,10 @@
 * Define Statements *
 ********************/
 // LS7366R OP-Codes
-#define CLEAR_COUNTER 8
+#define CLEAR_COUNTER 32 //8
 #define CLEAR_STATUS 48
 #define READ_COUNTER 96
-#define READ_STATUS 122
+#define READ_STATUS 112 //122
 #define READ_MDR0 72
 #define READ_MDR1 80
 #define WRITE_MDR0 136

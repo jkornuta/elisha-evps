@@ -68,8 +68,8 @@ double LS7366RClass::readPosition(uint8_t cs_pin)
     // send read counter command
     count = _transfer( READ_COUNTER );
     
-    // return value in mm (negative since position dir is flipped)  
-    return (-1.0 * (double)count / 500.0); //0.5um / count
+    // return value in mm (change sign for correct direction)
+    return (-1.0*(double)count / 2000.0); //0.5um / count
 }
 
 uint8_t LS7366RClass::getMDR0Reg()
