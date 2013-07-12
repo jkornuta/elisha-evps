@@ -32,8 +32,8 @@
 /************************
 * Variable Declarations *
 ************************/
-Servo servo1 (9, 8, DAC_A); // QD cs = 9, DAC cs = 8, DAC A
-//Servo servo2 (10, 8, DAC_B);
+Servo servo1 (10, 8, DAC_A); // QD cs = 9, DAC cs = 8, DAC A
+//Servo servo2 (9, 8, DAC_B);
 bool apply_value = false;
 bool pin_state = false;
 double delta_t;
@@ -52,7 +52,8 @@ void configureTimer45();
 void setup() 
 {
   Serial.begin(115200);
-    
+  
+  delay(100);  
   servo1.init(); // Set up SPI and configure QD and DAC
   //servo2.init();
         
@@ -64,7 +65,8 @@ void setup()
 
   // Pause initially, then continue
   delay(2000);  // delay in ms
-
+  servo1.zero();
+  
   // Configure timer for desired sampling frequency
   configureTimer45(Fs);
 

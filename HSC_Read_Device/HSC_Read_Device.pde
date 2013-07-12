@@ -6,8 +6,10 @@
 #include <Wire.h>
 #include "HSC.h"
 
-HSC pSensor1 (0);
+HSC pSensor1 (1);
+HSC pSensor2 (2);
 double pressure;
+char buffer[80] = "";
 
 // Start main program
 void setup()
@@ -34,7 +36,19 @@ void loop()
     Serial.print('\n');
   }
   */
-  Serial.println( pSensor1.pressure() );
+  //Serial.print( pSensor1.pressure() );
+  //Serial.print( "\t" );
+  //Serial.println (pSensor2.pressure() );
+  float a = 1.1;
+  int8_t b = 2;
+  int8_t c = 3;
+  //uint16_t bufsize = sprintf( buffer, 
+  //                      "%.2f %.2f  %.3f %.3f  %.2f %.2f  %d",
+  //                        a, b, c, 4.4, 5.5, 6.6, 100 );
+  uint16_t bufsize = sprintf(buffer,"%e\n", a);    
+  //Serial.print( bufsize,DEC );
+  //Serial.print( "\t" );
+  Serial.print(buffer);
 
   delay(200);
 }

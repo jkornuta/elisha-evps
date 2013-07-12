@@ -28,8 +28,9 @@
 #define TIMER_PRESCALE 4
 #define PRESCALED_TIMER_FREQ 20000000
 #define PI 3.14159265
-#define KP 0.1        // Proportional gain
-#define KI 0.003032   // Integral gain
+float Kp = -8.4e-3;   // Proportional gain
+float Ki = -0.003032;  // Integral gain
+float Kd = -5.01e-6;  // Derivative gain
 
 /************************
 * Variable Declarations *
@@ -44,9 +45,11 @@ double Ts = 0.005;      // Sampling time, sec
 double Fs = 1.0 / Ts;   // Sampling frequency, Hz
 
 // Control variables
-double e1 = 0.0;
-double e1sum = 0.0;
-double x1d = 0.0;        // Desired position
+double e1sum = 0.0; // sum of velocity error
+double e1old = 0.0; // old velocity error
+double v1old = 0.0; // old velocity
+double x1old = 0.0; // old position
+double v1d = 10.0; // desired position
 
 /************************
  * Function Declarations *
@@ -60,7 +63,7 @@ void configureTimer45();
 void setup() 
 {
   // Start serial and SPI communication
-  Serial.begin(115200);
+  Serial.begin(921600);
   
   // Wait for devices to warm up
   delay(100);
@@ -109,21 +112,33 @@ void loop()
   if (apply_value)
   {
     // Grab those positions
-    double x1 = servo1.position();
+    float x1 = servo1.position();
     //double x2 = servo2.position();
 
-    // Calculate error, then control input(s)
-    e1 = x1d - x1;
-    //e1sum += e1; 
+    // Calculate velocity, error, etc
+    //double v1 = (x1-x1old)/Ts;
+    //double e1 = v1d-v1;     // error
+    //double e1d = e1-e1old;  // change in error
+    //e1sum += e1;            // sum of error
+    float e1 = 0.0-x1;
+    float u1 = Kp*e1;
+
+    // for next iteration
+    //x1old = x1;
+    //e1old = e1;
+
     //double u1 = KP*e1 + KI*e1sum;
-    double u1 = KP*e1;    
+    //double u1 = KP*e1;  
+    //double u1 = Kp + Ki*Ts/e1sum + Kd*e1d/Ts;  
 
     // Apply control input(s) 
     servo1.move(u1);
 
     // Print output position
-    Serial.print( x1 );
-    Serial.print( "\t\t" );
+    //Serial.print( 0.0 );
+    //Serial.print( "\t" );
+    Serial.print( e1 );
+    Serial.print( "\t" );
     //Serial.println( x2 );
 
     // Print output voltage
