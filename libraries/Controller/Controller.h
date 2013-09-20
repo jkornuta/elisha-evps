@@ -20,7 +20,7 @@
 #define m 2 // Number of inputs
 #define p 2 // Number of outputs
 #define Hp 5 // Size of prediction horizon
-#define max_samples 10 // Maximum size of sample history for filter
+#define max_samples 16 // Maximum size of sample history for filter
 
 /********************
 * Class Declaration * 
