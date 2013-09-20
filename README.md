@@ -9,3 +9,4 @@ Main files:
  - Master_1/Master_1.pde: Main code compiled by MPIDE and uploaded to the Uno32.
  - masterSerial.py: Main Python program used by the host PC to communicate with and operate the Uno32.
  - libraries/*: Various C++ libraries that may be used by Master_1.pde; check the header to see which ones are used.
+ - Schematics and Boards/*: Schematics and PCB traces for both the main board (ELISHA: ELectronic Interfacing System Hub and Actuator) and the ViX 250AH interfacing board.
