@@ -48,7 +48,7 @@ Controller control;
 // For filtering
 float p1_history[max_samples] = {0};// Initialize pressure histories
 float p2_history[max_samples] = {0};
-uint8_t filter_order = 6;
+uint8_t filter_order = 12;
 // For PID (if using)
 float Kp;  // P-gain for Pavg
 float Ki;  // I-gain for Pavg
@@ -281,6 +281,14 @@ void loop()
     // Store old position values
     x1_old = x1;
     x2_old = x2;
+
+    // One more failsafe...
+    if (abs(x1) > 20.0 || abs(x2) > 20.0)
+    {
+      // Trick into thinking it's crossed midway
+      xmid1 = true;
+      xmid2 = true;
+    }
  
     // Grab pressure values; stop if pressure out of range (+- plimit cmH2O)
     float p1 = pSensor1.pressure();
