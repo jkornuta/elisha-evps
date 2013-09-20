@@ -32,13 +32,22 @@ for i in xrange(data_length_mode1):
 
 
 ### For control (mode 2), fill up appropriate array
-t = arange(0,10,3.333333333e-3)
-u1 = sin(2*pi*2*t) + 3.0
-u2 = sin(2*pi*1*t) - cos(2*pi*0.5*t) + 5.0
-#u1 = 0*t + 2.0
-#u2 = 0*t + 4.0
-u = array([u1, u2]).T
-u = u.astype(float32)
+data = scipy.io.loadmat(path + 'System Inputs/end_exp_Ca_free_20130827.mat')
+#data = scipy.io.loadmat(path + 'System Inputs/experiment_A_20130826.mat')
+#data = scipy.io.loadmat(path + 'System Inputs/experiment_A_extra_steps_20130904.mat')
+#data = scipy.io.loadmat(path + 'System Inputs/experiment_B_20130905.mat')
+#data = scipy.io.loadmat(path + 'System Inputs/characterize_vessel_20130903.mat')
+# Inputs stored in variable "u" when saved in MATLAB
+u = data['u'].astype(float32)
+#Ts = 6.25143e-3; # calibrated sampling time limited by my laptop
+#t = arange(0.,12*60.,Ts)
+#u1 = sin(2*pi*0.5*t) + 2.0
+#u2 = sin(2*pi*0.75*t) - cos(2*pi*0.5*t) + 3.0
+#u1 = sin(2*pi*0.7*t) - cos(2*pi*0.5*t) + 2.0
+#u1 = 0*t + 0.0 
+#u2 = 0*t + 5.0
+#u = array([u1, u2]).T
+#u = u.astype(float32)
 # Data length
 data_length_mode2 = u.size/2
 # Initialize storage arrays
@@ -162,6 +171,7 @@ def go_serial(uno32, mode):
     filename = path + 'Experiments/' + filename   # For all other experiments
     print "> Starting debug mode...\n"
   if mode == 0.5:
+    # Send to the magical and philosophically complex /dev/null
     filename = os.devnull
     print "> Starting debug mode...\n"  
 
@@ -194,8 +204,9 @@ def go_serial(uno32, mode):
     u2_string = u2_string_mode2
     print "> Starting...\n"
   
-  # Open file
+  # Open file, log time
   file = open(filename,'w')
+  t = time.time()
 
   # Send first Hp+1 inputs to serial buffer
   Hp = 5
@@ -233,15 +244,20 @@ def go_serial(uno32, mode):
       # Increment counter
       data_counter = data_counter + 1
   
-      # Output data to screen and write to file
-      sys.stdout.write(line)
+      # Get time; output data to screen and write to file
+      elapsed = time.time() - t
+      line = "%.3f  " % elapsed + line
+      sys.stdout.write(line) 
       file.write(line)
 
       # Close if done (modes 1 or 2)
       if mode == 1 or mode == 2:
         if data_counter == data_length + (Hp):
-          file.close()
-          print "\n> Done. File closed. Exiting...\n"
+          file.close() 
+          print "\n> Done. File closed. \n"
+          elapsed = time.time() - t
+          print "\n> Elapsed time: " + str(elapsed) + " sec\n"
+          print "\n> Exiting...\n"
           # Return to prompt
           #prompt(uno32)
           # Exit program
@@ -250,7 +266,7 @@ def go_serial(uno32, mode):
 
     # Ctrl-C gracefully exits loop    
     except (KeyboardInterrupt, SystemExit):
-      file.close()
+      file.close() 
       print "\n> File closed. Exiting...\n"
       # Return to prompt
       #prompt(uno32)
