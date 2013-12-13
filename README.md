@@ -11,6 +11,7 @@ Libraries and code for the Digilent chipKit Uno32 to interface with a daughter b
  - `masterSerial.py`: Main Python program used by the host PC to communicate with and operate the Uno32.
  - `libraries/`: Various C++ libraries that may be used by `Master_1.pde`; check the header to see which ones are used.
  - `Schematics and Boards/`: Schematics and PCB traces for both the main daughter board (ELISHA: ELectronic Interfacing System Hub and Actuator) and the ViX 250AH interfacing board.
+ - `Matlab/mpcMimo.m`: MATLAB script used to generate control gains.
  
 * * *
 
